@@ -18,19 +18,30 @@ function App() {
 
   useEffect(() =>{
     const testQuery = async()=>{
-      const res = await axios.get("http://localhost:8080");
-      console.log(res)
+      const res = await axios.get("https://cps731.onrender.com/test");
+      console.log(res.data);
+      setdbreq(res.data)
     }
     testQuery()
   }, []);
     
+
+
   return (
     <>
       <p>[Insert content here]</p>
       <br></br>
-      <p>Also a short example of how state variables work in react:</p>
+      <h2>Here's a short example of how state variables work in react:</h2>
       <button onClick={incrementCount}>Increase Count</button>
       <p>{count}</p>
+
+      <br></br>
+      <h2>And here's a short example of how to fetch data from our database</h2>
+      {dbreq.map(res=>(
+        <div>
+          {res.TestString}
+        </div>
+      ))}
     </>
   )
 }
