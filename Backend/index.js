@@ -6,7 +6,7 @@ import cors from "cors"
 const app = express()
 app.use(express.json())
 
-
+//establish db connection
 const db = mysql.createConnection({
     host:"cps731-cps731.c.aivencloud.com",
     user:"avnadmin",
@@ -16,6 +16,8 @@ const db = mysql.createConnection({
 })
 
 app.use(cors())
+
+//server responses
 app.get("/test", async (req, res)=> {
     const q = "select * from Test"
     return res.json(await querydb(q))
@@ -27,7 +29,27 @@ app.post("/test", async (req, res) => {
     return res.json(await querydbArgs(q, values));
 })
 
+app.get("/question", async(req, res) => {
+    const q = "select * from question"
+    return res.json(await querydb(q))
+})
+app.post("/question", async(req, res) => {
+    const q = "insert into question (`question_text`) Values (?)"
+    const values = [req.body.question_text]
+    return res.json(await querydbArgs(q, values))
+})
 
+app.get("/answer", async(req, res) =>{
+    const q = "select * from answer"
+    return res.json(await querydb(q))
+})
+app.post("/answer", async(req, res) => {
+    const q = "insert into answer (`question_id`, `answer_text`, `answer_points`) values (?)"
+    const values = [req.body.question_id, req.body.answer_text, req.body.answer_points]
+    return res.json(await querydbArgs(q, values))
+})
+
+//general function for a db query from js
 async function querydb(query){
     let out;
     try{
@@ -39,6 +61,7 @@ async function querydb(query){
     return out
 }
 
+//for db queries with VALUES parameter
 async function querydbArgs (query, values){
     let out;
     console.log(values)
