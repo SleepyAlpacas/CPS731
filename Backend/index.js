@@ -49,6 +49,17 @@ app.post("/answer", async(req, res) => {
     return res.json(await querydbArgs(q, values))
 })
 
+app.get("/account", async(req, res) =>{
+    const q = "select * from account"
+    return res.json(await querydb(q))
+})
+
+app.get("/account/:username/:password", async(req, res) =>{
+    const q = `select * from account where account_username = '${req.params.username}' and account_password = '${req.params.password}'`
+    console.log(q)
+    return res.json(await querydb(q))
+})
+
 //general function for a db query from js
 async function querydb(query){
     let out;
