@@ -16,23 +16,40 @@ const db = mysql.createConnection({
 })
 
 app.use(cors())
-app.get("/test", (req, res)=> {
+app.get("/test", async (req, res)=> {
     const q = "select * from Test"
-    db.query(q, (err, data) => {
-        if(err) return res.json(err) 
-        return res.json(data)
-    })
+    return res.json(await querydb(q))
 })
 
-app.post("/test", (req, res) => {
+app.post("/test", async (req, res) => {
     const q = "insert into Test (`TestInt`, `TestString`) Values (?)"
     const values = [req.body.TestInt, req.body.TestString];
-    db.query(q, [values], (err, data) => {
-        if (err) return res.json(err)
-        return res.json(data)
-    })
+    return res.json(await querydbArgs(q, values));
 })
 
+
+async function querydb(query){
+    let out;
+    try{
+        out = await db.promise().query(query);
+    }
+    catch(e){
+        out = e
+    }
+    return out
+}
+
+async function querydbArgs (query, values){
+    let out;
+    console.log(values)
+    try{
+        out = await db.promise().query(query, [values])
+    }
+    catch(e){
+        out = e;
+    }
+    return out
+}
 
 app.listen(8080, ()=>{
     console.log("hello world")
