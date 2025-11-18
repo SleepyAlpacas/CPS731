@@ -6,10 +6,11 @@ function AdminAnswer(){
 
     const [serverResponse, setServerResponse] = React.useState([])
 
-    async function submitAnswer(){
+    async function submitAnswer(operation){
         question_id = parseInt(document.getElementById("question_id").value)
         answer_text = document.getElementById("answer_text").value
         answer_points = parseInt(document.getElementById("answer_points").value)
+        const answer_id = parseInt(document.getElementById("answer_id").value)
         const answer = {
             question_id: question_id,
             answer_text: answer_text,
@@ -18,7 +19,13 @@ function AdminAnswer(){
         console.log(answer)
         let res;
         try{
-            res = await axios.post("https://cps731.onrender.com/answer", answer)
+            if (operation == "i"){
+                res = await axios.post("https://cps731.onrender.com/answer", answer)
+            }
+            else if (operation == 'd'){
+                console.log(`http://localhost:8080/answer/${answer_id}`)
+                res = await axios.delete(`http://localhost:8080/answer/${answer_id}`)
+            }
         }
         catch(e){
             console.log(e)
@@ -36,7 +43,12 @@ function AdminAnswer(){
                 <input type="text" id="answer_text"/>
                 <label>answer_points</label>
                 <input type="number" id="answer_points"/>
-                <input type="button" onClick={submitAnswer} value={"submit"}/>
+                <input type="button" onClick={()=>submitAnswer('i')} value={"Insert"}/>
+            </form>
+            <form>
+                <label>answer_id</label>
+                <input type="number" id="answer_id"/>
+                <input type="button" onClick={()=>submitAnswer('d')} value={"Delete"}/>
             </form>
             <p>{serverResponse}</p>
         </>

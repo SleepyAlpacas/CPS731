@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { Link } from 'react-router-dom'
 import './App.css'
 import axios from "axios"
 
@@ -19,8 +18,9 @@ function App() {
   useEffect(() =>{
     const testQuery = async()=>{
       const res = await axios.get("https://cps731.onrender.com/test");
+      //const res = await axios.get("http://localhost:8080/test")
       console.log(res.data);
-      setdbreq(res.data)
+      setdbreq(res.data[0])
     }
     testQuery()
   }, []);
@@ -29,7 +29,8 @@ function App() {
 
   return (
     <>
-      <p>[Insert content here]</p>
+      <button><Link to={'/admin'}>Admin Page</Link></button>
+      <button><Link to={'/questionnairemodule'}>Questionnaire</Link></button>
       <br></br>
       <h2>Here's a short example of how state variables work in react:</h2>
       <button onClick={incrementCount}>Increase Count</button>

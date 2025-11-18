@@ -48,12 +48,17 @@ app.post("/answer", async(req, res) => {
     const values = [req.body.question_id, req.body.answer_text, req.body.answer_points]
     return res.json(await querydbArgs(q, values))
 })
+app.delete("/answer/:answer_id", async(req, res) => {
+    const q = `delete from answer where answer_id = ${req.params.answer_id}`
+    console.log(q)
+    return res.json(await querydb(q))
+})
+
 
 app.get("/account", async(req, res) =>{
     const q = "select * from account"
     return res.json(await querydb(q))
 })
-
 app.get("/account/:username/:password", async(req, res) =>{
     const q = `select * from account where account_username = '${req.params.username}' and account_password = '${req.params.password}'`
     console.log(q)
