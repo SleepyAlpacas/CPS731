@@ -36,7 +36,7 @@ function App() {
       <p>{count}</p>
 
       <br></br>
-      <h2>And here's a short example of how to fetch data from our database</h2>
+      <h2>And here's a short example of how to fetch data from our database (let it load, our free server is slow)</h2>
       {dbreq.map(res=>(
         <div>
           {res.TestString}

@@ -7,6 +7,12 @@ function QuestionnaireModule(){
     const [questionNumber, setQuestionNumber] = React.useState(1)
     const [qreq, setqreq] = React.useState([]);
     const [areq, setareq] = React.useState([]);
+    const [points, setPoints] = React.useState(0);
+
+    function answerButton(answerPoints){
+        setPoints(points + answerPoints);
+        setQuestionNumber(questionNumber + 1);
+    }
 
     React.useEffect(() =>{
         const getQuestions = async()=>{
@@ -35,9 +41,10 @@ function QuestionnaireModule(){
 
         <form>
         {areq.filter((answer) => answer.question_id == questionNumber).map(answer=>(
-            <input type="button" id={answer.answer_id} value={answer.answer_text} /> 
+            <input type="button" id={answer.answer_id} value={answer.answer_text} onClick={() => answerButton(answer.answer_points)}/> 
         ))}
         </form>
+        <h2>Points: {points}</h2>
     </>)
 }
 
