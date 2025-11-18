@@ -2,16 +2,16 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
+import QuestionnaireModule from './QuestionnaireModule.jsx'
+import Admin from './Admin.jsx'
 import { BrowserRouter, Route, Routes } from "react-router";
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
-
-      <StrictMode>
-            <Routes>
+    <Routes>
       <Route path="/" element={<App />}/>
-          </Routes>
-      </StrictMode>
-
+      <Route path="/questionnairemodule" element={<QuestionnaireModule />}/>
+      <Route path="/admin" element={<Admin />}/>
+    </Routes>
   </BrowserRouter>
 )
