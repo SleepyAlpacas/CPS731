@@ -27,14 +27,14 @@ function QuestionnaireModule(){
     }, []);
 
 
-    
+
     return (<>
-        {qreq.map(question=>(
+        {qreq.filter((question) => question.question_id == questionNumber).map(question=>(
             <h1 key={question.question_id}> {question.question_text} </h1>
         ))}
 
         <form>
-        {areq.map(answer=>(
+        {areq.filter((answer) => answer.question_id == questionNumber).map(answer=>(
             <input type="button" id={answer.answer_id} value={answer.answer_text} /> 
         ))}
         </form>
