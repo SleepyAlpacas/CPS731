@@ -30,7 +30,7 @@ function App() {
   return (
     <>
       <button><Link to={'/admin'}>Admin Page</Link></button>
-      <button><Link to={'/questionnairemodule'}>Questionnaire</Link></button>
+      <button><Link to={'/user'}>User</Link></button>
       <br></br>
       <h2>Here's a short example of how state variables work in react:</h2>
       <button onClick={incrementCount}>Increase Count</button>

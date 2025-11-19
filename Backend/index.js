@@ -64,6 +64,11 @@ app.get("/account/:username/:password", async(req, res) =>{
     console.log(q)
     return res.json(await querydb(q))
 })
+app.post("/account", async(req, res) =>{
+    const q = "insert into account (`account_username`, `account_password`, `is_admin`) values (?)"
+    const account = [req.body.account_username, req.body.account_password, req.body.is_admin]
+    return res.json(await querydbArgs(q, account))
+})
 
 app.get("/outcome", async(req, res) =>{
     const q = "select * from outcome"
