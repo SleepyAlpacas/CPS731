@@ -84,6 +84,16 @@ app.post("/outcome", async(req, res) => {
     return res.json(await querydbArgs(q, outcome))
 })
 
+app.get("/result", async(req, res) =>{
+    const q = "select * from result"
+    return res.json(await querydb(q))
+})
+app.post("/result", async(req, res) => {
+    const q = "insert into result (`account_id`, `outcome_id`, `score`) values (?)"
+    const result = [req.body.account_id, req.body.outcome_id, req.body.score]
+    return res.json(await querydbArgs(q, result))
+})
+
 
 //general function for a db query from js
 async function querydb(query){
