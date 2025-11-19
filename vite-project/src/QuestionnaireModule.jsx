@@ -22,26 +22,12 @@ function QuestionnaireModule(){
     //handler for answer buttons
     function answerButton(answerPoints){
         setPoints(points + answerPoints);
+        if (questionNumber >= questions.length-1) setQuestionnaireEnd(true)
         setQuestionNumber(questionNumber + 1);
     }
 
-    function printOutcome(){
-        if (loggedIn && questionNumber >= questions.length){
-            console.log("RESULTS")
-            for(const outcome of outcomes){
-                if (points >= outcome.min_score && points <= outcome.max_score){
-                    return(<>
-                        <h1>Results !!!</h1>
-                        <h2>{outcome.title}</h2>
-                        <p>{outcome.description}</p>
-                    </>)
-                }
-            }
-        }
-    }
-
     function printQuestion(){
-        if (loggedIn && questionNumber < questions.length){
+        if (loggedIn && !questionnaireEnd){
             const currentQuestion = questions.filter(question => question.question_id == questions[questionNumber]. question_id)
             const out = currentQuestion.map(question=>(
                 <h1 key={question.question_id}> {question.question_text} </h1>
@@ -51,7 +37,7 @@ function QuestionnaireModule(){
     }
 
     function printAnswer(){
-        if (loggedIn && questionNumber < questions.length){
+        if (loggedIn && !questionnaireEnd){
             const currentAnswers = answers.filter(answer => answer.question_id == questions[questionNumber].question_id)
             const out = currentAnswers.map(answer=>(
                 <input type="button" key={answer.answer_id} value={answer.answer_text} onClick={() => {answerButton(answer.answer_points)}}/> 
@@ -60,39 +46,72 @@ function QuestionnaireModule(){
         }
     }
 
+    function computeOutcome(){
+        for(const outcome of outcomes){
+            if (points >= outcome.min_score && points <= outcome.max_score){
+                return outcome
+            }
+        }
+    }
+
+    function printOutcome(){
+        if (loggedIn && questionnaireEnd){
+            const outcome = computeOutcome()
+            return(<>
+                <h1>Results !!!</h1>
+                <h2>{outcome.title}</h2>
+                <p>{outcome.description}</p>
+            </>)
+        }
+    }
+
+    function createResult(){
+        if (questionnaireEnd){
+            const outcome = computeOutcome()
+            const account_id = document.cookie.match(/account_id=\d+/)[0].split("=")[1]
+            const result = {account_id: account_id, outcome_id: outcome.outcome_id, score: points}
+            return result
+            //out = axios.post("http://localhost:8080/result", result)
+        }
+    }
+
     //get all questions and answers from database
     React.useEffect(() =>{
         const getQuestions = async()=>{
-            if (!questions.length){
-                //const res = await axios.get("https://cps731.onrender.com/question");
-                const res = await axios.get("http://localhost:8080/question");
-                console.log(res.data);
-                setQuestions(res.data[0])
-            }
+            //const res = await axios.get("https://cps731.onrender.com/question");
+            const res = await axios.get("http://localhost:8080/question");
+            console.log(res.data);
+            setQuestions(res.data[0])
         }
 
         const getAnswers = async()=>{
-            if (!answers.length){
-                //const res = await axios.get("https://cps731.onrender.com/answer")
-                const res = await axios.get("http://localhost:8080/answer")
-                console.log(res.data)
-                setAnswers(res.data[0])
-            }
+            //const res = await axios.get("https://cps731.onrender.com/answer")
+            const res = await axios.get("http://localhost:8080/answer")
+            console.log(res.data)
+            setAnswers(res.data[0])
         }
 
         const getOutcomes = async()=>{
-            if (!outcomes.length){
-                const res = await axios.get("http://localhost:8080/outcome")
-                console.log(res.data)
-                setOutcomes(res.data[0])
-            }
+            const res = await axios.get("http://localhost:8080/outcome")
+            console.log(res.data)
+            setOutcomes(res.data[0])
         }
 
         checkLoggedIn()
         getQuestions()
         getAnswers()
         getOutcomes()
+
     }, []);
+
+    React.useEffect(()=>{
+        const result = createResult()
+        const saveResult = async()=>{
+            const res = await axios.post("http://localhost:8080/result", result)
+            console.log(res)
+        }
+        saveResult()
+    }, [questionnaireEnd])
 
 
     return (<>
