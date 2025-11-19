@@ -65,6 +65,17 @@ app.get("/account/:username/:password", async(req, res) =>{
     return res.json(await querydb(q))
 })
 
+app.get("/outcome", async(req, res) =>{
+    const q = "select * from outcome"
+    return res.json(await querydb(q))
+})
+app.post("/outcome", async(req, res) => {
+    const q = "insert into outcome (`title`, `description`, `min_score`, `max_score`) values (?)"
+    const outcome = [req.body.title, req.body.description, req.body.min_score, req.body.max_score]
+    return res.json(await querydbArgs(q, outcome))
+})
+
+
 //general function for a db query from js
 async function querydb(query){
     let out;
