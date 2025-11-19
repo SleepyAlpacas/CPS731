@@ -5,43 +5,40 @@ import { Link } from "react-router";
 function UserProfileModule(){
     const [loggedIn, setLoggedIn] = React.useState(null)
     const [username, setUsername] = React.useState(null)
-
-    function checkLoggedIn(){
-        const search = document.cookie.match(/account_id=\d+/)
-        if (search) {
-            setLoggedIn(search[0].split("=")[1]);
-            return true
-        }
-        return false
-    }
+    const [userResults, setUserResults] = React.useState([]);
 
     function logout(){
         document.cookie = "account_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC;"
         setUsername(null)
         setLoggedIn(null)
+        setUserResults([]);
     }
 
-    async function searchUser(userId){
-        if (username == null) {
-            const out = await axios.get(`http://localhost:8080/account/${userId}`)
-            if (out.data[0].length == 1) {
-                setUsername(out.data[0][0].account_username)
+    //check if user is already logged in
+    React.useEffect(() =>{
+        const getUsername = async (userId) =>{
+            if (username == null) {
+                const out = await axios.get(`http://localhost:8080/account/${userId}`)
+                if (out.data[0].length == 1) {
+                    setLoggedIn(true)
+                    setUsername(out.data[0][0].account_username)
+                }
             }
         }
-    }
 
-    React.useEffect(() =>{
-        if (checkLoggedIn()){
-            searchUser(loggedIn)
+        const userId = document.cookie.match(/account_id=\d+/)
+        if (userId){
+            getUsername(userId[0].split("=")[1])
         }
-    })
+    }, [])
 
     async function checkLogIn(){
         const username = document.getElementById("username").value
         const password = document.getElementById("password").value
         const out = await axios.get(`http://localhost:8080/account/${username}/${password}`)
         if (out.data[0].length) {
-            setLoggedIn(true);
+            setLoggedIn(out.data[0][0].account_id);
+            setUsername(out.data[0][0].account_username)
             console.log(out.data[0][0].account_id)
             document.cookie = `account_id=${out.data[0][0].account_id}`
         }
@@ -60,6 +57,46 @@ function UserProfileModule(){
         console.log(out.data)
         if (Array.isArray(out.data)) setLoggedIn(true)
     }
+
+    function printUserResults(){
+        if (userResults){
+            const outcomeTable = userResults.map(outcome=>(
+                    <tr>
+                        <td>{outcome.outcome_id}</td>
+                        <td>{outcome.result_id}</td>
+                        <td>{outcome.score}</td>
+                        <td>{outcome.completion_time}</td>
+                    </tr>
+            ))
+            console.log(outcomeTable)
+            return (    
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>outcome id</td>
+                            <td>result id</td>
+                            <td>score</td>
+                            <td>completion time</td>
+                        </tr>
+                        {outcomeTable}
+                    </tbody>
+                </table>
+            )
+        }
+    }
+
+    React.useEffect(() => {
+        const getUserResults = async () => {
+            if (loggedIn){
+                const userId = document.cookie.match(/account_id=\d+/)[0].split("=")[1]
+                const out = await axios.get(`http://localhost:8080/result/${userId}`)
+                setUserResults(out.data[0])
+            }
+        }
+        getUserResults()
+    }, [loggedIn])
+
+
 
     return(
         <>  {   !loggedIn &&
@@ -82,7 +119,10 @@ function UserProfileModule(){
             }
             {loggedIn && <h1>You're logged in user: {username}</h1>}
             {loggedIn && <button onClick={logout}>Logout</button>}
-            {loggedIn && <button><Link to={"/questionnairemodule"}>Questionnaire Module</Link></button>}           
+            {loggedIn && <button><Link to={"/questionnairemodule"}>Questionnaire Module</Link></button>}
+            <button onClick={printUserResults}>test</button>
+            {printUserResults()}
+            
         </>
     )
 }
