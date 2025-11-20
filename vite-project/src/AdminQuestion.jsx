@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { Link } from "react-router";
 
 function AdminQuestion(){
 
@@ -38,6 +39,7 @@ function AdminQuestion(){
                 <input type="button" onClick={deleteQuestion} value={"Delete"}/>
             </form>
             <p>{serverResponse}</p>
+            <button><Link to={"/admin"}>Back</Link></button>
         </>
     )
 }

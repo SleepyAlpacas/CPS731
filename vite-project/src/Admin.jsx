@@ -9,8 +9,27 @@ function Admin(){
         const username = document.getElementById("username").value
         const password = document.getElementById("password").value
         const out = await axios.get(`http://localhost:8080/account/${username}/${password}`)
-        if (out.data[0].length == 1 && out.data[0][0].is_admin == 1) setLoggedIn(true)
+        if (out.data[0] && out.data[0][0].is_admin == 1) {
+            setLoggedIn(true)
+            document.cookie = `account_id=${out.data[0][0].account_id}`
+        }
     }
+
+    React.useEffect(() =>{
+        const getUsername = async (userId) =>{
+            if (!loggedIn) {
+                const out = await axios.get(`http://localhost:8080/account/${userId}`)
+                if (out.data[0] && out.data[0][0].is_admin == 1) {
+                    setLoggedIn(true)
+                }
+            }
+        }
+
+        const userId = document.cookie.match(/account_id=\d+/)
+        if (userId){
+            getUsername(userId[0].split("=")[1])
+        }
+    }, [])
 
     return(
         <>  {   !loggedIn &&
