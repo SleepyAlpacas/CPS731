@@ -38,6 +38,10 @@ app.post("/question", async(req, res) => {
     const values = [req.body.question_text]
     return res.json(await querydbArgs(q, values))
 })
+app.delete("/question/:question_id", async(req, res) => {
+    const q = `delete from question where question_id = ${req.params.question_id}`
+    return res.json(await querydb(q))
+})
 
 app.get("/answer", async(req, res) =>{
     const q = "select * from answer"

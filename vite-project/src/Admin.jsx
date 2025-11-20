@@ -23,6 +23,7 @@ function Admin(){
                 </form>
             }
             {loggedIn && <button><Link to={"/admin/answer"}>Answer Table</Link></button>}
+            {loggedIn && <button><Link to={"/admin/question"}>Question Table</Link></button>}
         </>
     )
 }

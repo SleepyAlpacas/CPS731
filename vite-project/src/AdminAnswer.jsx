@@ -1,39 +1,34 @@
 import React from "react";
-import { useEffect } from "react";
 import axios from "axios";
 
 function AdminAnswer(){
 
     const [serverResponse, setServerResponse] = React.useState([])
 
-    async function submitAnswer(operation){
-        question_id = parseInt(document.getElementById("question_id").value)
-        answer_text = document.getElementById("answer_text").value
-        answer_points = parseInt(document.getElementById("answer_points").value)
-        const answer_id = parseInt(document.getElementById("answer_id").value)
+
+    function createAnswer(){
+        const question_id = parseInt(document.getElementById("question_id").value)
+        const answer_text = document.getElementById("answer_text").value
+        const answer_points = parseInt(document.getElementById("answer_points").value)
         const answer = {
             question_id: question_id,
             answer_text: answer_text,
             answer_points: answer_points
         }
-        console.log(answer)
-        let res;
-        try{
-            if (operation == "i"){
-                res = await axios.post("https://cps731.onrender.com/answer", answer)
-            }
-            else if (operation == 'd'){
-                console.log(`http://localhost:8080/answer/${answer_id}`)
-                res = await axios.delete(`http://localhost:8080/answer/${answer_id}`)
-            }
-        }
-        catch(e){
-            console.log(e)
-        }
-        console.log(res)
-        //setServerResponse(res)
-        
+        return answer
     }
+
+    async function insertAnswer(answer){
+        const res = await axios.post("https://cps731.onrender.com/answer", answer)
+        console.log(res)
+    }
+
+    async function deleteAnswer(){
+        const answer_id = parseInt(document.getElementById("answer_id").value)
+        const res = await axios.delete(`http://localhost:8080/answer/${answer_id}`)
+        console.log(res)
+    }
+
     return(
         <>
             <form>
@@ -43,12 +38,12 @@ function AdminAnswer(){
                 <input type="text" id="answer_text"/>
                 <label>answer_points</label>
                 <input type="number" id="answer_points"/>
-                <input type="button" onClick={()=>submitAnswer('i')} value={"Insert"}/>
+                <input type="button" onClick={()=>{const answer = createAnswer(); insertAnswer(answer)}} value={"Insert"}/>
             </form>
             <form>
                 <label>answer_id</label>
                 <input type="number" id="answer_id"/>
-                <input type="button" onClick={()=>submitAnswer('d')} value={"Delete"}/>
+                <input type="button" onClick={deleteAnswer} value={"Delete"}/>
             </form>
             <p>{serverResponse}</p>
         </>
