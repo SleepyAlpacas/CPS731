@@ -92,6 +92,10 @@ app.get("/result", async(req, res) =>{
     const q = "select * from result"
     return res.json(await querydb(q))
 })
+app.get("/result/:accountid", async(req, res) => {
+    const q = `select * from result where account_id = ${req.params.accountid}`
+    return res.json(await querydb(q))
+})
 app.post("/result", async(req, res) => {
     const q = "insert into result (`account_id`, `outcome_id`, `score`) values (?)"
     const result = [req.body.account_id, req.body.outcome_id, req.body.score]
