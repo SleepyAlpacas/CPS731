@@ -30,7 +30,7 @@ function UserProfileModule(){
         if (userId){
             getUsername(userId[0].split("=")[1])
         }
-    }, [])
+    }, [loggedIn])
 
     async function checkLogIn(){
         const username = document.getElementById("username").value
@@ -55,11 +55,15 @@ function UserProfileModule(){
         const out = await axios.post(`http://localhost:8080/account`, account)
         console.log(typeof(out.data) != 'object')
         console.log(out.data)
-        if (Array.isArray(out.data)) setLoggedIn(true)
+        if (Array.isArray(out.data)) {
+            document.cookie = `account_id=${out.data[0].insertId}`
+            setLoggedIn(true)
+
+        }
     }
 
     function printUserResults(){
-        if (userResults){
+        if (userResults.length){
             const outcomeTable = userResults.map(outcome=>(
                     <tr>
                         <td>{outcome.outcome_id}</td>
@@ -120,7 +124,6 @@ function UserProfileModule(){
             {loggedIn && <h1>You're logged in user: {username}</h1>}
             {loggedIn && <button onClick={logout}>Logout</button>}
             {loggedIn && <button><Link to={"/questionnairemodule"}>Questionnaire Module</Link></button>}
-            <button onClick={printUserResults}>test</button>
             {printUserResults()}
             
         </>

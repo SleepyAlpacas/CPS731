@@ -15,8 +15,13 @@ function Admin(){
         }
     }
 
+    function logout(){
+        document.cookie = "account_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC;"
+        setLoggedIn(false)
+    }
+
     React.useEffect(() =>{
-        const getUsername = async (userId) =>{
+        const checkUserLoggedIn = async (userId) =>{
             if (!loggedIn) {
                 const out = await axios.get(`http://localhost:8080/account/${userId}`)
                 if (out.data[0] && out.data[0][0].is_admin == 1) {
@@ -27,7 +32,7 @@ function Admin(){
 
         const userId = document.cookie.match(/account_id=\d+/)
         if (userId){
-            getUsername(userId[0].split("=")[1])
+            checkUserLoggedIn(userId[0].split("=")[1])
         }
     }, [])
 
@@ -43,6 +48,7 @@ function Admin(){
             }
             {loggedIn && <button><Link to={"/admin/answer"}>Answer Table</Link></button>}
             {loggedIn && <button><Link to={"/admin/question"}>Question Table</Link></button>}
+            {loggedIn && <button onClick={logout}>Log Out</button>}
         </>
     )
 }
