@@ -123,12 +123,14 @@ function QuestionnaireModule() {
   }, []);
 
   React.useEffect(() => {
-    const result = createResult();
-    const saveResult = async () => {
-      const res = await axios.post("http://localhost:8080/result", result);
-      console.log(res);
-    };
-    saveResult();
+    if (questionnaireEnd){
+        const result = createResult();
+        const saveResult = async () => {
+        const res = await axios.post("http://localhost:8080/result", result);
+        console.log(res);
+        };
+        saveResult();
+    }
   }, [questionnaireEnd]);
 
   return (
