@@ -1,52 +1,51 @@
-import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import './App.css'
-import axios from "axios"
-
-
+import { useEffect, useState } from "react";
+// import { Link } from "react-router-dom";
+// import "./styles/App.css";
+import axios from "axios";
+import NavBar from "./components/NavBar.jsx";
 
 function App() {
   const [count, setCount] = useState(0);
-  function incrementCount(){
+  function incrementCount() {
     setCount(count + 1);
   }
 
-
-
   const [dbreq, setdbreq] = useState([]);
 
-  useEffect(() =>{
-    const testQuery = async()=>{
+  useEffect(() => {
+    const testQuery = async () => {
       const res = await axios.get("https://cps731.onrender.com/test");
       //const res = await axios.get("http://localhost:8080/test")
       console.log(res.data);
-      setdbreq(res.data[0])
-    }
-    testQuery()
+      setdbreq(res.data[0]);
+    };
+    testQuery();
   }, []);
-    
-
 
   return (
-    <>
-      <button><Link to={'/admin'}>Admin Page</Link></button>
-      <button><Link to={'/user'}>User</Link></button>
-      <br></br>
-      <h2>Here's a short example of how state variables work in react:</h2>
+    <div className="page">
+      {/* <button>
+        <Link to={"/admin"}>Admin Page</Link>
+      </button>
+      <button>
+        <Link to={"/user"}>User</Link>
+      </button> */}
+      <NavBar />
+
+      <br />
+
+      <h2>Example of How State Variables Work in React:</h2>
       <button onClick={incrementCount}>Increase Count</button>
       <p>{count}</p>
 
       <br></br>
-      <h2>And here's a short example of how to fetch data from our database (let it load, our free server is slow)</h2>
-      {dbreq.map(res=>(
-        <div>
-          {res.TestString}
-        </div>
+
+      <h2>Example of a DB Fetch (let it load, our free server is slow) </h2>
+      {dbreq.map((res) => (
+        <div key={res.TestString}>{res.TestString}</div>
       ))}
-    </>
-  )
+    </div>
+  );
 }
 
-
-
-export default App
+export default App;
