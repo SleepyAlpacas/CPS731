@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { Link } from "react-router";
+import NavBar from "./components/NavBar";
 
 function AdminAnswer() {
   const [serverResponse, setServerResponse] = React.useState([]);
@@ -50,6 +51,7 @@ function AdminAnswer() {
     //     <button><Link to={"/admin"}>Back</Link></button>
     // </>
     <div className="page">
+      <NavBar />
       <div className="card admin-section">
         <h2>Create Answer</h2>
 

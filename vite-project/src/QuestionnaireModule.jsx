@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import NavBar from "./components/NavBar";
 
 function QuestionnaireModule() {
   const [questionNumber, setQuestionNumber] = React.useState(0);
@@ -142,6 +143,7 @@ function QuestionnaireModule() {
         {loggedIn && <h2>Points: {points}</h2>}
         {!loggedIn && <h1>Not Logged In !!!</h1>} */}
       <div className="page">
+        <NavBar />
         <div className="card">
           {printQuestion()}
           <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
