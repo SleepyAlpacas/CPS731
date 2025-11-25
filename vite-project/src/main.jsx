@@ -9,6 +9,7 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import AdminAnswer from "./AdminAnswer.jsx";
 import UserProfileModuleDisplay from "./UserProfileModuleDisplay.jsx";
 import AdminQuestion from "./AdminQuestion.jsx";
+import AdminAccount from "./AdminAccount.jsx";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -18,6 +19,7 @@ createRoot(document.getElementById("root")).render(
       <Route path="/admin" element={<Admin />} />
       <Route path="/admin/answer" element={<AdminAnswer />} />
       <Route path="/admin/question" element={<AdminQuestion />} />
+      <Route path="/admin/account" element={<AdminAccount />} />
       <Route path="/user" element={<UserProfileModuleDisplay />} />
     </Routes>
   </BrowserRouter>

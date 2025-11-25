@@ -147,6 +147,12 @@ export class Account {
     const account = [username, password, isAdmin];
     return await querydbArgs(q, account);
   }
+
+  static async deleteById(accountId) {
+    const q = `delete from account where account_id = ${accountId}`;
+    console.log(q);
+    return await querydb(q);
+  }
 }
 
 // Outcome table
@@ -263,6 +269,10 @@ app.post("/account", async (req, res) => {
   return res.json(
     await Account.create(account_username, account_password, is_admin)
   );
+});
+
+app.delete("/account/:account_id", async (req, res) => {
+  return res.json(await Account.deleteById(req.params.account_id));
 });
 
 // Outcome routes
