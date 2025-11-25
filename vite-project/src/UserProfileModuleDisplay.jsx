@@ -1,8 +1,7 @@
 import React from "react";
-import axios from "axios";
 import { Link } from "react-router";
 import NavBar from "./components/NavBar";
-import { getUserResults, checkLogIn, checkSignUp, logout, userIdLogin, getUserId } from "./UserProfileModule";
+import { getSetUserResults, checkLogIn, checkSignUp, logout, userIdLogin, getUserId } from "./UserProfileModule";
 
 function UserProfileModule() {
   const [loggedIn, setLoggedIn] = React.useState(null);
@@ -23,7 +22,7 @@ function UserProfileModule() {
   React.useEffect(() => {
     if (loggedIn){
         const userId = getUserId()
-        getUserResults(userId, setUserResults)
+        getSetUserResults(userId, setUserResults)
     }
   }, [loggedIn]);
 
