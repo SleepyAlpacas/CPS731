@@ -52,6 +52,34 @@ export async function deleteQuestion() {
     console.log(res);
 }
 
+//outcome section
+export function createOutcome(){
+    const title = document.getElementById("title").value
+    const description = document.getElementById("description").value
+    const min_score = document.getElementById("min_score").value
+    const max_score = document.getElementById("max_score").value
+
+    const outcome = {
+        title: title,
+        description: description,
+        min_score: min_score,
+        max_score: max_score
+    }
+
+    return outcome
+}
+export async function insertOutcome(outcome){
+    const res = await axios.post("http://localhost:8080/outcome", outcome)
+    return res
+}
+
+export async function deleteOutcome(){
+    const outcome_id = document.getElementById("outcome_id").value
+    const res = await axios.delete(`http://localhost:8080/outcome/${outcome_id}`)
+    return res
+}
+
+
 //account section
 export function createAccount(){
     const account_username = document.getElementById("account_username").value

@@ -99,6 +99,9 @@ function Admin() {
               <Link to={"/admin/question"}>Question Table</Link>
             </button>
             <button className="btn">
+              <Link to={"/admin/outcome"}>Outcome Table</Link>
+            </button>
+            <button className="btn">
               <Link to={"/admin/account"}>Account Table</Link>
             </button>
             <button className="btn-logout" onClick={logout}>

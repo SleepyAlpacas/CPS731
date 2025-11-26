@@ -177,6 +177,11 @@ export class Outcome {
     const outcome = [title, description, minScore, maxScore];
     return await querydbArgs(q, outcome);
   }
+
+  static async deleteById(outcome_id){
+    const q = `delete from outcome where outcome_id = ${outcome_id}`
+    return await querydb(q)
+  }
 }
 
 // Result table
@@ -286,6 +291,10 @@ app.post("/outcome", async (req, res) => {
     await Outcome.create(title, description, min_score, max_score)
   );
 });
+
+app.delete("/outcome/:outcome_id", async (req, res) => {
+  return res.json(await Outcome.deleteById(req.params.outcome_id))
+})
 
 // Result routes
 app.get("/result", async (req, res) => {

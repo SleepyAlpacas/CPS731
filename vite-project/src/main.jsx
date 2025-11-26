@@ -10,6 +10,7 @@ import AdminAnswer from "./AdminAnswer.jsx";
 import UserProfileModuleDisplay from "./UserProfileModuleDisplay.jsx";
 import AdminQuestion from "./AdminQuestion.jsx";
 import AdminAccount from "./AdminAccount.jsx";
+import AdminOutcome from "./AdminOutcome.jsx";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -20,6 +21,7 @@ createRoot(document.getElementById("root")).render(
       <Route path="/admin/answer" element={<AdminAnswer />} />
       <Route path="/admin/question" element={<AdminQuestion />} />
       <Route path="/admin/account" element={<AdminAccount />} />
+      <Route path="/admin/outcome" element={<AdminOutcome />} />
       <Route path="/user" element={<UserProfileModuleDisplay />} />
     </Routes>
   </BrowserRouter>
