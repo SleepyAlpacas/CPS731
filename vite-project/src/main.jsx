@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 // import "./styles/index.css";
 import "./styles/theme.css";
 import App from "./App.jsx";
-import QuestionnaireModule from "./QuestionnaireModule.jsx";
+import QuestionnaireModuleDisplay from "./QuestionnaireModuleDisplay.jsx";
 import Admin from "./Admin.jsx";
 import { BrowserRouter, Route, Routes } from "react-router";
 import AdminAnswer from "./AdminAnswer.jsx";

@@ -37,7 +37,7 @@ export async function checkLogIn(setLoggedIn, setUsername) {
   }
 }
 
-export async function getUserResults(userId, setUserResults) {
+export async function getSetUserResults(userId, setUserResults) {
     const out = await axios.get(`http://localhost:8080/result/${userId}`);
     setUserResults(out.data[0]);
 };

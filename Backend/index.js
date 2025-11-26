@@ -147,6 +147,12 @@ export class Account {
     const account = [username, password, isAdmin];
     return await querydbArgs(q, account);
   }
+
+  static async deleteById(accountId) {
+    const q = `delete from account where account_id = ${accountId}`;
+    console.log(q);
+    return await querydb(q);
+  }
 }
 
 // Outcome table
@@ -170,6 +176,11 @@ export class Outcome {
       "insert into outcome (`title`, `description`, `min_score`, `max_score`) values (?)";
     const outcome = [title, description, minScore, maxScore];
     return await querydbArgs(q, outcome);
+  }
+
+  static async deleteById(outcome_id){
+    const q = `delete from outcome where outcome_id = ${outcome_id}`
+    return await querydb(q)
   }
 }
 
@@ -265,6 +276,10 @@ app.post("/account", async (req, res) => {
   );
 });
 
+app.delete("/account/:account_id", async (req, res) => {
+  return res.json(await Account.deleteById(req.params.account_id));
+});
+
 // Outcome routes
 app.get("/outcome", async (req, res) => {
   return res.json(await Outcome.getAll());
@@ -276,6 +291,10 @@ app.post("/outcome", async (req, res) => {
     await Outcome.create(title, description, min_score, max_score)
   );
 });
+
+app.delete("/outcome/:outcome_id", async (req, res) => {
+  return res.json(await Outcome.deleteById(req.params.outcome_id))
+})
 
 // Result routes
 app.get("/result", async (req, res) => {
