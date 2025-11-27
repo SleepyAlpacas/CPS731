@@ -34,7 +34,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="/user" element={<UserProfileModule />} />
           <Route
             path="/questionnairemodule"
-            element={<QuestionnaireModule />}
+            element={<QuestionnaireModuleDisplay />}
           />
         </Routes>
       </AuthProvider>

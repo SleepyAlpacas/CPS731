@@ -10,7 +10,6 @@ export function AuthProvider({ children }) {
     isAdmin: false,
   });
 
-  // On first load, try to restore from cookie
   useEffect(() => {
     const match = document.cookie.match(/account_id=\d+/);
     if (!match) return;
