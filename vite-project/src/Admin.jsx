@@ -195,14 +195,26 @@ function Admin() {
           </button>
 
           <button>
+            <Link to="/admin/question" className="btn-primary-link">
+              Manage Questions
+            </Link>
+          </button>
+
+          <button>
             <Link to="/admin/answer" className="btn-primary-link">
               Manage Answers
             </Link>
           </button>
 
           <button>
-            <Link to="/admin/question" className="btn-primary-link">
-              Manage Questions
+            <Link to="/admin/outcome" className="btn-primary-link">
+              Manage Outcomes
+            </Link>
+          </button>
+
+          <button>
+            <Link to="/admin/account" className="btn-primary-link">
+              Manage Accounts
             </Link>
           </button>
 

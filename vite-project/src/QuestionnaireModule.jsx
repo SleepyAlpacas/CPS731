@@ -1,6 +1,4 @@
-import React from "react";
 import axios from "axios";
-import NavBar from "./components/NavBar";
 
 export function computeOutcome(outcomes, points) {
     for (const outcome of outcomes) {

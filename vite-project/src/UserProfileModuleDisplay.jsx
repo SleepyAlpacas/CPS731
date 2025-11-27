@@ -3,31 +3,17 @@ import React from "react";
 import { Link, useNavigate } from "react-router";
 import NavBar from "./components/NavBar";
 import {
-  getUserResults,
-  // checkLogIn,
-  // checkSignUp,
-  // logout,
-  // userIdLogin,
-  // getUserId,
+  getSetUserResults,
 } from "./UserProfileModule";
 import { useAuth } from "./AuthContext";
 
 function UserProfileModule() {
-  // const [loggedIn, setLoggedIn] = React.useState(null);
-  // const [username, setUsername] = React.useState(null);
   const [userResults, setUserResults] = React.useState([]);
   const [showPwdU] = React.useState(false);
-  // const [showPwdR, setShowPwdR] = React.useState(false);
   const { loggedIn, username, logout } = useAuth();
   const navigate = useNavigate();
 
-  //check if user is already logged in
-  // React.useEffect(() => {
-  //   const userId = document.cookie.match(/account_id=\d+/);
-  //   if (userId) {
-  //     userIdLogin(userId[0].split("=")[1], setLoggedIn, setUsername);
-  //   }
-  // }, []);
+
 
   React.useEffect(() => {
     if (!loggedIn) {
@@ -40,79 +26,9 @@ function UserProfileModule() {
     if (!match) return;
     const userId = match[0].split("=")[1];
 
-    getUserResults(userId, setUserResults);
-    // if (loggedIn) {
-    //   const userId = getUserId();
-    //   getUserResults(userId, setUserResults);
-    // }
+    getSetUserResults(userId, setUserResults);
   }, [loggedIn]);
 
-  // function printLoginForm() {
-  //   if (!loggedIn) {
-  //     return (
-  //       <div className="card">
-  //         <h2>Login</h2>
-  //         <input id="username" type="text" placeholder="Username" />
-  //         <div className="password-wrapper">
-  //           <input
-  //             type={showPwdU ? "text" : "password"}
-  //             placeholder="Password"
-  //             id="password"
-  //           />
-  //           <button
-  //             type="button"
-  //             className="password-toggle"
-  //             onClick={() => setShowPwdU(!showPwdU)}
-  //           >
-  //             {showPwdU ? "Hide" : "Show"}
-  //           </button>
-  //         </div>
-
-  //         <input
-  //           type="button"
-  //           value="Login"
-  //           onClick={() => {
-  //             checkLogIn(setLoggedIn, setUsername);
-  //           }}
-  //         />
-  //       </div>
-  //     );
-  //   }
-  // }
-
-  // function printSignUpForm() {
-  //   if (!loggedIn) {
-  //     return (
-  //       <div className="card">
-  //         <h2>Sign Up</h2>
-  //         <input id="usernameSignUp" type="text" placeholder="Username" />
-  //         {/* <input id="passwordSignUp" type="password" placeholder="Password" /> */}
-  //         <div className="password-wrapper">
-  //           <input
-  //             type={showPwdR ? "text" : "password"}
-  //             placeholder="Password"
-  //             id="passwordSignUp"
-  //           />
-  //           <button
-  //             type="button"
-  //             className="password-toggle"
-  //             onClick={() => setShowPwdR(!showPwdR)}
-  //           >
-  //             {showPwdR ? "Hide" : "Show"}
-  //           </button>
-  //         </div>
-
-  //         <input
-  //           type="button"
-  //           value="Sign Up"
-  //           onClick={() => {
-  //             checkSignUp(setLoggedIn, setUsername);
-  //           }}
-  //         />
-  //       </div>
-  //     );
-  //   }
-  // }
 
   function printUserResults() {
     if (!userResults.length) return null;
