@@ -59,7 +59,7 @@ function QuestionnaireModuleDisplay() {
       const outcome = computeOutcome(outcomes, points);
       return (
         <>
-          <h1>Results !!!</h1>
+          <h1>Results</h1>
           <h2>{outcome.title}</h2>
           <p>{outcome.description}</p>
         </>
