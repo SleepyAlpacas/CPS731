@@ -5,7 +5,7 @@ import NavBar from "./components/NavBar";
 import {
   getSetUserResults,
 } from "./UserProfileModule";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "./UserProfileModule";
 
 function UserProfileModule() {
   const [userResults, setUserResults] = React.useState([]);

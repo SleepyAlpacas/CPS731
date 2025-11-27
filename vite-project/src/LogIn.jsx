@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import NavBar from "./components/NavBar";
-import { useAuth } from "./AuthContext";
+import { useAuth, handleLogin } from "./UserProfileModule";
+
 
 function LogIn() {
   const [showPwd, setShowPwd] = useState(false);
@@ -10,49 +11,12 @@ function LogIn() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setError("");
-
-    const formData = new FormData(e.currentTarget);
-    const username = formData.get("username")?.trim();
-    const password = formData.get("password")?.trim();
-
-    if (!username || !password) {
-      setError("Please enter both username and password.");
-      return;
-    }
-
-    try {
-      const out = await axios.get(
-        `http://localhost:8080/account/${username}/${password}`
-      );
-
-      if (out.data[0] && out.data[0].length) {
-        const user = out.data[0][0]; // account_id, account_username, is_admin
-        login(user);
-
-        if (user.is_admin === 1) {
-          navigate("/admin");
-        } else {
-          navigate("/user");
-        }
-      } else {
-        setError("Invalid username or password.");
-      }
-    } catch (err) {
-      console.error(err);
-      setError("Unable to sign in. Please try again.");
-    }
-  }
-
-  return (
-    <div className="page">
-      <NavBar />
+  function printLoginForm(){
+    return (
       <div className="card">
         <h2>Log In</h2>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(e) => handleLogin(e, setError, login, navigate)}>
           <input name="username" type="text" placeholder="Username" />
 
           <div className="password-wrapper">
@@ -77,6 +41,13 @@ function LogIn() {
           <button type="submit">Log In</button>
         </form>
       </div>
+    )
+  }
+
+  return (
+    <div className="page">
+      <NavBar />
+      {printLoginForm()}
     </div>
   );
 }

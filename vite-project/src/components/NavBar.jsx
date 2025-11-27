@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../AuthContext";
+import { useAuth } from "../UserProfileModule";
 
 function NavBar() {
   const auth = useAuth(); // might be null if no provider

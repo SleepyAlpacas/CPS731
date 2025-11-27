@@ -8,9 +8,8 @@ import QuestionnaireModuleDisplay from "./QuestionnaireModuleDisplay.jsx";
 import { BrowserRouter, Route, Routes } from "react-router";
 
 import UserProfileModule from "./UserProfileModuleDisplay.jsx";
-import UserProfileModuleDisplay from "./UserProfileModuleDisplay.jsx";
 
-import Admin from "./Admin.jsx";
+import Admin from "./AdminMenu.jsx";
 import AdminQuestion from "./AdminQuestion.jsx";
 import AdminAnswer from "./AdminAnswer.jsx";
 import AdminOutcome from "./AdminOutcome.jsx";
@@ -18,7 +17,7 @@ import AdminAccount from "./AdminAccount.jsx";
 
 import LogIn from "./LogIn.jsx";
 import SignUp from "./SignUp.jsx";
-import { AuthProvider } from "./AuthContext.jsx";
+import { AuthProvider } from "./UserProfileModule.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
