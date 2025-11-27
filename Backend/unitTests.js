@@ -23,7 +23,7 @@ async function runTests() {
     });
     
     await test("TC2 - Question.create()", async () => {
-        const [result] = await Question.create("Test question from unit test");
+        const [result] = await Question.createTest("Test question from unit test");
         if (result.affectedRows !== 1) {
             throw new Error("Question not created");
         }
@@ -44,7 +44,7 @@ async function runTests() {
     });
 
     await test("TC5 - Answer.create()", async () => {
-        const [result] = await Answer.create(1, "Test answer from unit test", 5);
+        const [result] = await Answer.createTest(1, "Test answer from unit test", 5);
         if (result.affectedRows !== 1) {
             throw new Error("Answer not created");
         }

@@ -79,6 +79,12 @@ export class Question {
     return await querydbArgs(q, values);
   }
 
+  static async createTest(questionText) {
+    const q = "insert into testquestion (`question_text`) Values (?)";
+    const values = [questionText];
+    return await querydbArgs(q, values);
+  }
+
   static async deleteById(questionId) {
     const q = `delete from question where question_id = ${questionId}`;
     return await querydb(q);
@@ -104,6 +110,13 @@ export class Answer {
   static async create(questionId, answerText, answerPoints) {
     const q =
       "insert into answer (`question_id`, `answer_text`, `answer_points`) values (?)";
+    const values = [questionId, answerText, answerPoints];
+    return await querydbArgs(q, values);
+  }
+
+  static async createTest(questionId, answerText, answerPoints) {
+    const q =
+      "insert into testanswer (`question_id`, `answer_text`, `answer_points`) values (?)";
     const values = [questionId, answerText, answerPoints];
     return await querydbArgs(q, values);
   }
